@@ -52,7 +52,7 @@ function App() {
   return (
     <div className="App" style={{ backgroundColor: `${randomColor}` }}>
       <header className="App-header">
-        <h1>Meme of the Day</h1>
+        <h1>MEME OF THE DAY</h1>
         {loading && <p>Have an nice day!</p>}
         {error && <p>Yikes, this shit isn't working.</p>}
         {memes && (
