@@ -18,3 +18,27 @@ h1 {
     font-weight: 900;
     line-height: 1;
 }
+
+button {
+  font-size: 1em;
+  font-weight: 700;
+  background-color: white;
+  border: none;
+  outline: none;
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
+}
+
+.flex {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+}
+
+textarea {
+  border: none;
+  border-radius: 20px;
+  width: 70%;
+  padding: 2em;
+  font-size: 1em;
+}
