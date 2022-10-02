@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="App" style={{ backgroundColor: `${randomColor}` }}>
       <header className="App-header">
-        <Memes />
+        {/* <Memes /> */}
         <Names buttonColor={randomColor} />
       </header>
     </div>

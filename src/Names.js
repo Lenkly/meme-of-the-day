@@ -1,55 +1,78 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Names = ({ buttonColor }) => {
-  const team = [
-    "Andy",
-    "Picke",
-    "Flo",
-    "Henning",
-    "Jannik",
-    "Lydi",
-    "Marcel",
-    "Niklas",
-    "Paddel",
-    "Yusuf",
-  ];
+  const [showEditor, setShowEditor] = useState(true);
+  const [team, setTeam] = useState(["A", "B", "C", "D", "E", "F", "G"]);
 
-  function randomize() {
-    console.log("click");
+  useEffect(() => {
+    if (window.localStorage.getItem("team")) {
+      setShowEditor(false);
+    } else {
+      setShowEditor(true);
+    }
+  }, []);
+
+  function randomize(array) {
+    const newTeam = [...array];
+    return newTeam.sort(() => Math.random() - 0.5);
   }
 
-  function convertColor(hex, a) {
-    let r = parseInt(hex.substring(1, 3), 16);
-    let g = parseInt(hex.substring(3, 5), 16);
-    let b = parseInt(hex.substring(5, 7), 16);
-
-    return "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
+  function setList() {
+    setShowEditor(false);
+    randomize(team);
+    window.localStorage.setItem("team", team);
   }
 
-  const nameList = team.map((t, index) => {
+  function resetList() {
+    window.localStorage.removeItem("team");
+    setShowEditor(true);
+  }
+
+  const randomizedTeam = randomize(team);
+  const nameList = randomizedTeam.map((t, index) => {
     return <li key={index}>{t}</li>;
   });
 
   return (
     <>
       <h1>DAILY ORDER</h1>
-      <div className="flex">
-        <textarea
-          className="input"
-          id="nameArea"
-          style={{
-            background: `linear-gradient(white, ${convertColor(
-              buttonColor,
-              0.5
-            )})`,
-            color: `${buttonColor}`,
-          }}
-        ></textarea>
-        <ol>{nameList}</ol>
+      <div className="flex-row">
+        {showEditor ? (
+          <form onSubmit={(e) => setList(e)}>
+            <textarea
+              type="text"
+              id="nameArea"
+              placeholder="Namen durch Komma trennen, z. B.: Anton, Berta, Caesar"
+            />
+            <button
+              type="submit"
+              style={{ color: `${buttonColor}` }}
+              onSubmit={(e) => setList(e)}
+            >
+              LOS GEHTS!
+            </button>
+          </form>
+        ) : (
+          <div className="flex-column">
+            <ol>{nameList}</ol>
+            <h3>Neue Liste?</h3>
+            <div className="flex-row">
+              <button
+                style={{ color: `${buttonColor}` }}
+                onClick={() => resetList()}
+              >
+                YES PLEASE!
+              </button>
+              <button
+                style={{ color: `${buttonColor}` }}
+                onClick={() => randomize(team)}
+              >
+                NEE, NOCHMAL!
+              </button>
+            </div>
+          </div>
+        )}
       </div>
-      <button style={{ color: `${buttonColor}` }} onClick={() => randomize()}>
-        NOCHMAL!
-      </button>
     </>
   );
 };
