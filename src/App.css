@@ -50,3 +50,8 @@ textarea {
   color: white;
   margin: 0 1em 1em 1em;
 }
+
+li {
+  font-size: 1.25em;
+  margin-bottom: 0.25em;
+}

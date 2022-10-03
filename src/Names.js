@@ -7,7 +7,7 @@ const Names = ({ buttonColor }) => {
 
   useEffect(() => {
     if (getLocalStorage && getLocalStorage !== "") {
-      setTeam(getLocalStorage);
+      setTeam(JSON.parse(getLocalStorage));
       setShowEditor(false);
     } else {
       setShowEditor(true);
@@ -19,19 +19,19 @@ const Names = ({ buttonColor }) => {
     return newTeam.sort(() => Math.random() - 0.5);
   }
 
-  function handleText(e) {
-    setTeam(e.target.value);
-  }
-
   function setList(e) {
     e.preventDefault();
+
+    const stringifiedTeam = team.replace(/,/g, "").split(" ");
+    setTeam(stringifiedTeam);
     setShowEditor(false);
-    window.localStorage.setItem("team", team);
-    randomize(team);
+    window.localStorage.setItem("team", JSON.stringify(stringifiedTeam));
+    randomize(stringifiedTeam);
   }
 
   function resetList() {
     window.localStorage.removeItem("team");
+    setTeam("");
     setShowEditor(true);
   }
 
@@ -50,7 +50,8 @@ const Names = ({ buttonColor }) => {
               type="text"
               id="nameArea"
               placeholder="Namen durch Komma trennen, z. B.: Anton, Berta, Caesar"
-              onChange={handleText}
+              value={team}
+              onChange={(e) => setTeam(e.target.value)}
             />
             <button
               type="submit"
