@@ -55,3 +55,28 @@ li {
   font-size: 1.25em;
   margin-bottom: 0.25em;
 }
+
+#results {
+  animation: fadeIn 0s linear 3s forwards;
+}
+
+.jade-logo {
+  animation: spinning 0s linear 3s forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes spinning {
+  to {
+      width:0;
+      height:0;
+      overflow:hidden;
+  }
+}
