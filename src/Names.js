@@ -2,25 +2,32 @@ import React, { useEffect, useState } from "react";
 
 const Names = ({ buttonColor }) => {
   const [showEditor, setShowEditor] = useState(true);
-  const [team, setTeam] = useState(["A", "B", "C", "D", "E", "F", "G"]);
+  const [team, setTeam] = useState("");
+  const getLocalStorage = window.localStorage.getItem("team");
 
   useEffect(() => {
-    if (window.localStorage.getItem("team")) {
+    if (getLocalStorage && getLocalStorage !== "") {
+      setTeam(getLocalStorage);
       setShowEditor(false);
     } else {
       setShowEditor(true);
     }
-  }, []);
+  }, [getLocalStorage]);
 
   function randomize(array) {
     const newTeam = [...array];
     return newTeam.sort(() => Math.random() - 0.5);
   }
 
-  function setList() {
+  function handleText(e) {
+    setTeam(e.target.value);
+  }
+
+  function setList(e) {
+    e.preventDefault();
     setShowEditor(false);
-    randomize(team);
     window.localStorage.setItem("team", team);
+    randomize(team);
   }
 
   function resetList() {
@@ -38,16 +45,17 @@ const Names = ({ buttonColor }) => {
       <h1>DAILY ORDER</h1>
       <div className="flex-row">
         {showEditor ? (
-          <form onSubmit={(e) => setList(e)}>
+          <form onSubmit={setList}>
             <textarea
               type="text"
               id="nameArea"
               placeholder="Namen durch Komma trennen, z. B.: Anton, Berta, Caesar"
+              onChange={handleText}
             />
             <button
               type="submit"
               style={{ color: `${buttonColor}` }}
-              onSubmit={(e) => setList(e)}
+              onSubmit={setList}
             >
               LOS GEHTS!
             </button>
